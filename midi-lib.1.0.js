@@ -1,7 +1,10 @@
 // Library for MIDI interaction using Web MID API.
 // Specification at http://www.w3.org/TR/webmidi
 // --------------------------------------------------
-
+// Usage:
+//		myCallback = function(InitResponse) { ... };
+// 		midi = new WebMidi.midi();
+//		midi.init(WebMidi.SYSEX_NOT_REQUIRED, myCallback);
 
 // Define namespace object for all library functions
 var WebMidi = WebMidi || {};
@@ -18,7 +21,7 @@ WebMidi.SYSEX_REQUIRED = 1;
 WebMidi.midi = function() {
 	
 	// Private class used for basic feedback in initialisation and setup of event callbacks.
-	var InitResult = function (result, message, data) {
+	var InitResponse = function (result, message, data) {
 		// public members 
 		this.result = result || WebMidi.INIT_FAILURE;
 		this.message = message || 'Object not yet initialised';
@@ -91,7 +94,7 @@ WebMidi.midi = function() {
 			outputPorts.push(new MidiPort(port, key.name, key.state, key.connection));
 		});
 	
-		userCallback(new InitResult(WebMidi.INIT_SUCCESS, "API access successful!", { inputs: inputPorts, outputs: outputPorts}));	
+		userCallback(new InitResponse(WebMidi.INIT_SUCCESS, "API access successful!", { inputs: inputPorts, outputs: outputPorts}));	
 	}
 	
 	// Callback invoked by API (via promise) if request for MIDI access is unsuccessful.
@@ -107,7 +110,7 @@ WebMidi.midi = function() {
 	var returnError = function (error_string) {
 		//alert("Returning error to user: " + error_string);
 		console.log("Returning error to user: " + error_string);
-		userCallback(new InitResult(WebMidi.INIT_FAILURE, "API ACCESS FAILED [" + error_string + "]"));
+		userCallback(new InitResponse(WebMidi.INIT_FAILURE, "API ACCESS FAILED [" + error_string + "]"));
 	}
 
 
