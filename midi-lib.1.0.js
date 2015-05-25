@@ -55,20 +55,20 @@ WebMidi.midi = function() {
 		try {
 			promise = navigator.requestMIDIAccess(); //TODO add options
 		} catch (error) {
-			this.returnError("API NOT SUPPORTED [" + error.message + "]");
+			returnError("API NOT SUPPORTED [" + error.message + "]");
 			return;
 		}
 		
 		if (!promise) {
-			this.returnError("INVALID API RESULT [No promise object returned]");
+			returnError("INVALID API RESULT [No promise object returned]");
 			return;
 		}
 		
 		//with Promise objects, we can add handlers AFTER events have occurred and they will still fire - nice!
 		try {
-			promise.then(this.midiCallbackOk, this.midiCallbackFail);
+			promise.then(midiCallbackOk, midiCallbackFail);
 		} catch (error) {
-			this.returnError("FAILED ADDING PROMISE HANDLERS [" + error.message + "]");
+			returnError("FAILED ADDING PROMISE HANDLERS [" + error.message + "]");
 			return;
 		}
 	}
@@ -76,7 +76,7 @@ WebMidi.midi = function() {
 	// Callback invoked by API (via Promise) if request for MIDI access is successful.
 	// Params:
 	//		midiAccess - MIDIAccess object as defined by API. 
-	this.midiCallbackOk = function (midiAccess) {
+	var midiCallbackOk = function (midiAccess) {
 		
 		//alert("API Callback - OK");
 		console.log("API Callback - OK");
@@ -100,7 +100,7 @@ WebMidi.midi = function() {
 	// Callback invoked by API (via promise) if request for MIDI access is unsuccessful.
 	// Params:
 	//		error - DOMException object as defined by API.
-	this.midiCallbackFail = function (error) {
+	var midiCallbackFail = function (error) {
 		//alert("API Callback - Fail");
 		console.log("API Callback - Fail");
 		var errstr = error.toString();
