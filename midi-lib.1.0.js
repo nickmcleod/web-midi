@@ -53,7 +53,7 @@ WebMidi.midi = function() {
 		//call API which uses Promise-style callback handling
 		var promise;
 		try {
-			promise = navigator.requestMIDIAccess(); //TODO add options
+			promise = navigator.requestMIDIAccess(options); //TODO add options
 		} catch (error) {
 			returnError("API NOT SUPPORTED [" + error.message + "]");
 			return;
