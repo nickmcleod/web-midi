@@ -12,8 +12,19 @@
 	<div id="heading">
 		<h1>Web MIDI API test</h1>
 		<p>This page calls the new <a href="http://www.w3.org/TR/webmidi/">Web MIDI API</a> to detect MIDI devices attached to your computer.</p>
-		<p>As of May 2015, this API has been implemented in the latest versions of the Chrome and Opera browsers - see the <a href="http://caniuse.com/#feat=midi">latest browser support list</a>.</p>
-		<p>Note that your browser may prompt you for permission to run scripts or access the MIDI API.</p>
+		<p>As of May 2015, this API has been implemented in the latest versions of the Chrome <s>and Opera</s> browsers - see the <a href="http://caniuse.com/#feat=midi">latest browser support list</a>.</p>
+		Notes:
+		<ul>
+			<li>Your browser may prompt you for permission to run scripts or access the MIDI API.</li>
+			<li>Some versions of Chrome may need to have the "Enable Web MIDI API" enabled on the settings page:</li>
+			<ol>
+				<li>Enter this in the Chrome address bar: chrome://flags.</li>
+				<li>Search in the page for 'midi'.</li>
+				<li>If the setting "Enable Web MIDI API" exists, click the 'Enable' link just below it.
+				<br />If the link says 'Disable', the API has already been enabled.
+				<br />If the setting doesn't exist, you either have a very old version of Chrome, or the latest version which doesn't need this setting as it is enabled by default.</li>
+			</ol>
+		</ul>
 		
 	</div>
 	
