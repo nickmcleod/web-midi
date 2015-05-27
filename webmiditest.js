@@ -9,7 +9,7 @@ function initApp() {
     
     // start MIDI init and wait for result
     var midi = new WebMidi.midi();
-    midi.init(WebMidi.SYSEX_REQUIRED, onFinished);
+    midi.init(optionAccessSysEx ? WebMidi.SYSEX_REQUIRED : WebMidi.SYSEX_NOT_REQUIRED, onFinished);
 }
 
 // sets sysex option by reloading with url params
