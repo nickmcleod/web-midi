@@ -1,10 +1,49 @@
 // Requires midi-lib.1.0.js
 
+var urlParams;
+var optionAccessSysEx = false;
 
 function initApp() {
+    //collect and handle url parameters (API access options)
+    initParams();
+    
     // start MIDI init and wait for result
     var midi = new WebMidi.midi();
     midi.init(WebMidi.SYSEX_REQUIRED, onFinished);
+}
+
+// sets sysex option by reloading with url params
+function setSysEx() {
+    optionAccessSysEx = document.getElementById("sysex").checked;
+    if (optionAccessSysEx)
+        window.location.href="?sysex=1";
+    else
+        window.location.href="?";
+}
+
+function getUrlParams() {
+    var qs = document.location.search;
+    qs = qs.split("+").join(" ");
+
+    var params = {}, tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
+
+// collect url params and handles options
+function initParams() {
+    //collect params into object properties
+    urlParams = getUrlParams();
+    
+    //handle sysex option
+    optionAccessSysEx = (urlParams.sysex == "1");
+    document.getElementById("sysex").checked = optionAccessSysEx;
 }
 
 
@@ -18,11 +57,13 @@ function onFinished(initResult) {
         displayResult(initResult.message);
         displayResult("<br />Detected ports are displayed below.");
         
-        displayPorts("inputs",initResult.data.inputs);
-        displayPorts("outputs",initResult.data.outputs);
+        displayPorts("inputs", initResult.data.inputs);
+        displayPorts("outputs", initResult.data.outputs);
     } else {
         //failure
         displayResult(initResult.message);
+        displayPorts("inputs", null);
+        displayPorts("outputs", null);
     }
 }
 
@@ -32,6 +73,13 @@ function displayResult(msg) {
 
 function displayPorts(parentId, ports) {
 
+    //append summary and new list to specified UI element
+	var div = document.getElementById(parentId);
+	if (!ports) {
+	    div.appendChild(document.createTextNode("N/A"));
+	    return;
+	}
+	
     //create a new list UI element	
 	var list = document.createElement("ul");
 	var item;
@@ -42,7 +90,6 @@ function displayPorts(parentId, ports) {
 	});
 	
 	//append summary and new list to specified UI element
-	var div = document.getElementById(parentId);
 	div.appendChild(document.createTextNode("Number of ports: " + ports.length));
 	div.appendChild(list);
 }
