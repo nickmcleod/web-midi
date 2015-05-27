@@ -16,9 +16,9 @@ function initApp() {
 function setSysEx() {
     optionAccessSysEx = document.getElementById("sysex").checked;
     if (optionAccessSysEx)
-        window.location.href="?sysex=1";
+        window.location.href="https://www.stonepiano.net?sysex=1";
     else
-        window.location.href="?";
+        window.location.href="http://www.stonepiano.net";
 }
 
 function getUrlParams() {
